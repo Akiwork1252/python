@@ -22,14 +22,14 @@ class InformationDisplay:
     # (記録タイミング >>> 初打ち(回転数０,玉０)、遊技玉が無くなった時、初当たり時、大当り毎、確率変動終了後、遊技終了後)
     @staticmethod
     def add_data_to_csvfile(count, balls):  # count:回転数、balls:玉数
-        with open('game_data/game_data.csv', mode='a', encoding='utf-8') as file:
+        with open('game_data.csv', mode='a', encoding='utf-8') as file:
             writer = csv.writer(file)
             writer.writerow([count, balls])
 
     # csvファイルからデータフレイム作成
     @staticmethod
     def create_dataframe():
-        df = pd.read_csv('game_data/game_data.csv')
+        df = pd.read_csv('game_data.csv')
         return df
 
     # 遊技日を取得し、月と日にちを返す(ファイル名とグラフのタイトルに使用)
@@ -90,7 +90,7 @@ class InformationDisplay:
         ax.set_xlabel('回転数')
         ax.set_ylabel('玉数')
         # グラフを保存
-        fig.savefig(f'game_data/{filename}')
+        fig.savefig(f'{filename}')
         while True:
             action = input('Enterキーを押すとグラフが表示されます。')
             if type(action) is str:
