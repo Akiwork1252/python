@@ -10,7 +10,7 @@ class MadokaMagika:
     big_bonus_plus = 1500.0  # float:上位確変突入
     bonus_plus = 450  # int:確変突入
     bonus = 450.0  # float:通常
-    lose = None
+    lose = False
 
     # 抽選(通常)
     @staticmethod

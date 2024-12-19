@@ -9,7 +9,7 @@ class FistOfTheNorthStar:
     big_bonus = 1500
     bonus = 300
     losing = 'END'
-    lose = None
+    lose = False
 
     # 抽選(通常)
     @staticmethod

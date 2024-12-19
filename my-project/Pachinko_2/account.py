@@ -1,20 +1,22 @@
 import logging
-from database import DataBase
+from operate_db import DataBase
+from game_info import GameData
 
 
 # アカウントの作成、確認
 class Account:
-    # ロギングの設定  >>> ログレベル（DEBUG, INFO, WARNING, ERROR, CRITICAL）
-    logging.basicConfig(level=logging.DEBUG, format='%(time)s - %(name)s - %(level)s - %(message)s')
+    # ロギングの設定
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S')  # オプション: 日付フォーマット
 
-    def __init__(self, name, age, money):
+    def __init__(self, name='anonymous', age=20, money=5000):
         self.name = name
         self.age = age
         self.money = money
 
     # 年齢入力
     @staticmethod
-    def input_age():
+    def _input_age():
         while True:
             try:
                 user_age = int(input('年齢:'))
@@ -28,7 +30,7 @@ class Account:
 
     # 所持金入力(初来店の客のみ）
     @staticmethod
-    def input_money():
+    def _input_money():
         print('初めてのご来店ですね。所持金を入力してください。')
         while True:
             try:
@@ -43,7 +45,7 @@ class Account:
 
     # 年齢チェック
     @staticmethod
-    def check_age(age, min_age=18):
+    def _check_age(age, min_age=18):
         if min_age <= age:
             return age
         else:
@@ -51,7 +53,7 @@ class Account:
 
     # 所持金チェック
     @staticmethod
-    def check_money(money):
+    def _check_money(money):
         min_money = 500
         if min_money < money:
             return money
@@ -62,7 +64,7 @@ class Account:
 
     # アカウント表示
     @staticmethod
-    def view_account(name, age, money):
+    def _view_account(name, age, money):
         print('-'*20)
         print(f'名前: {name}')
         print(f'年齢: {age}')
@@ -71,29 +73,31 @@ class Account:
 
     # アカウント作成
     @staticmethod
-    def create_account(name, age):
-        money = Account.check_money(Account.input_money())  # check_money():所持金の入力と判定 500未満はNoneを返す
+    def _create_account(name, age):
+        money = Account._check_money(Account._input_money())  # check_money():所持金の入力と判定 500未満はNoneを返す
         DataBase.add_account_to_db(name, age, money)  # データベースに新規客の情報を追加
         char = Account(name, age, money)  # インスタンス作成
         return char
 
-    # アカウント確認、作成
+    # アカウント確認、インスタンスを作成して返す
     @staticmethod
     def check_account():
         print('名前、年齢、所持金を入力してください。')
         user_name = input('名前:')
-        user_age = Account.check_age(Account.input_age())  # check_age():年齢取得 >>> 18歳未満ならNoneを返す
+        user_age = Account._check_age(Account._input_age())  # check_age():年齢取得 >>> 18歳未満ならNoneを返す
         if user_age is not None:
             db_money = DataBase.account_check(user_name, user_age)  # account_check():データベースを確認
             if db_money is None:
-                char = Account.create_account(user_name, user_age)  # アカウント作成
+                char = Account._create_account(user_name, user_age)  # アカウント作成
                 print('アカウントを作成しました。')
-                Account.view_account(char.name, char.age, char.money)
+                Account._view_account(char.name, char.age, char.money)
+                GameData.create_csv()  # 遊戯データ保存用のcsvファイルをカレントディレクトリに作成
                 return char
             else:
                 char = Account(user_name, user_age, db_money)  # インスタンス作成
                 print(f'前回の所持金({char.money}円)を使用して、下記のアカウントで入店します。')
-                Account.view_account(char.name, char.age, char.money)
+                Account._view_account(char.name, char.age, char.money)
+                GameData.create_csv()  # 遊戯データ保存用のcsvファイルをカレントディレクトリに作成
                 return char
         else:
             return None

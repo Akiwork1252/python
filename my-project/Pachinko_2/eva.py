@@ -9,7 +9,7 @@ class Eva:
     big_bonus = 1500
     bonus_plus = 450  # int:確変突入
     bonus = 450.0  # float:チャンスタイム突入
-    lose = None
+    lose = False
 
     # 抽選(通常)
     @staticmethod
