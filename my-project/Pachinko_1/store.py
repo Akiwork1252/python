@@ -423,6 +423,7 @@ class Pachinko(Store):
                         Store.revenue(self, income)
                         Pachinko.user_action('finished')
                         Pachinko.replay = 0  # 再プレイを０に戻す。
+                        Store.transition(self)
                         break
                 Pachinko.user_action('firing')  # ユーザー：Enterキーを押すと玉が発射されます。
                 Store.check_the_game(self)  # 遊技確認

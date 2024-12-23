@@ -1,14 +1,13 @@
 import random
 from account import Account
 from operate_db import DataBase
-
-
 # パチンコ店のクラス　
-# <機能>
 #  ・アクションメニューの選択、・収益を表示、
 #  ・選択アクション(遊戯台の選択、遊戯台のスペックを表示、自身の遊戯履歴表示、所持金追加、管理者メニュー、退店)
 #  ・遊技台の出玉推移グラフを表示
-class Store(Account):
+
+
+class Store:
     # 顧客選択メニュー
     menu = {
         'H': 'CR北斗の拳',
@@ -32,10 +31,13 @@ class Store(Account):
         2: '遊戯履歴の確認',
     }
 
-    def __init__(self, name, age, money):
-        super().__init__(name, age, money)
-        self.investment_amount = 0  # 総投資額
-        self.play_check = 0
+    def __init__(self, model):
+        self.models_to_play = model  # 遊戯台
+        self.balls = 0  # 遊戯玉
+        self.get_balls = 0  # 大当り獲得出玉
+        self.total_balls = 0  # 遊戯台パチンコ玉推移((出玉推移グラフ用)
+        self.rotational_count = 0  # 遊戯台回転数
+        self.total_rotational_count = 0  # 遊戯台総回転数(出玉推移グラフ用)
 
     # メニュー画面を表示
     @staticmethod
@@ -51,8 +53,7 @@ class Store(Account):
         print('-'*20)
 
     # メニューの選択
-    @staticmethod
-    def _user_choice():
+    def _user_choice(self):
         Store._menu_display()  # メニュー画面を表示
         while True:
             print('アクションを選択して対応キーを入力してください。')
@@ -62,10 +63,11 @@ class Store(Account):
                 continue
             else:
                 break
-        print(f'\nあなたは" {Store.menu[choice]} "を選択しました。')
+        print(f'あなたは" {Store.menu[choice]} "を選択しました。')
+        print(self.models_to_play)
         return choice
 
-    # アクションの振り分け 戻り値 >>> choice:遊戯、 False:アクション後メニュー画面に戻る、None:ループから抜ける(退店)
+    # アクションの振り分け 戻り値:choice >>>遊戯、 False >>>アクション後メニュー画面に戻る、None >>>ループから抜ける(退店)
     def _user_action(self, choice, min_money=500):
         if (choice == 'H') or (choice == 'E') or (choice == 'M'):  # 遊戯
             if self.money < min_money:
@@ -221,10 +223,10 @@ class Store(Account):
                 print('入力が正しくありません。(YES -> "y", NO -> "n")')
                 continue
 
-    # Storeメイン
-    def store(self):
+    # Storeメイン <<< main.py[Main]で実行
+    def store_main(self):
         while True:
-            choice = Store._user_choice()
+            choice = Store._user_choice(self)
             user_action = Store._user_action(self, choice)
             # その他アクションの実行後にメニュー画面に戻る
             if user_action is False:
@@ -235,9 +237,5 @@ class Store(Account):
                 break
             # 遊戯
             elif isinstance(user_action, str):  # 遊戯
+                self.models_to_play = Store.menu[choice]  # 遊戯する機種名を記憶
                 return choice
-
-
-if __name__ == '__main__':
-    aki = Store('aki', 33, 5000)
-    Store.store(aki)

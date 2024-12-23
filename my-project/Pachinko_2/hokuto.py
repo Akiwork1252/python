@@ -5,7 +5,7 @@ import random
 # (確率変動時の出玉振り分け): +300(20%) or +1500(80%), (大当り継続率): 88%
 
 
-class FistOfTheNorthStar:
+class Hokuto:
     big_bonus = 1500
     bonus = 300
     losing = 'END'
@@ -20,13 +20,13 @@ class FistOfTheNorthStar:
             big_bonus_probability = jackpot_probability * big_bonus
             if user_num < big_bonus_probability:
                 print('**BigBonus(+1500)GET** >>> 確率変動突入')
-                return FistOfTheNorthStar.big_bonus
+                return Hokuto.big_bonus
             else:
                 print('**Bonus(+300)GET** >>> 確率変動突入')
-                return FistOfTheNorthStar.bonus
+                return Hokuto.bonus
         else:
             print('-', end='')
-            return FistOfTheNorthStar.lose
+            return Hokuto.lose
 
     # 抽選(確変)
     @staticmethod
@@ -37,14 +37,14 @@ class FistOfTheNorthStar:
             big_bonus_probability = jackpot_probability * big_bonus
             if user_num <= big_bonus_probability:
                 print('**BigBonus(+1500)GET** >>> 確率変動継続')
-                return FistOfTheNorthStar.big_bonus
+                return Hokuto.big_bonus
             else:
                 print('**Bonus(+300)GET** >>> 確率変動継続')
-                return FistOfTheNorthStar.bonus
+                return Hokuto.bonus
         # 転落
         elif user_num <= probability_of_losing:
             print('転落を引きました。 >>> 通常モードに戻ります。')
-            return FistOfTheNorthStar.losing
+            return Hokuto.losing
         else:
             print('-', end='')
-            return FistOfTheNorthStar.lose
+            return Hokuto.lose
