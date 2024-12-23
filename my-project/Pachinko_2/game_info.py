@@ -120,16 +120,3 @@ class GameData:
         file_name = GameData._create_filename(name, file_name_data, model_initial)  # 出玉推移グラフを保存するためのファイル名作成
         graph_title = GameData._create_graph_title(model, user_name, graph_title_data)  # グラフタイトル作成
         GameData._create_and_view_graph(game_df, graph_title, file_name)
-
-
-if __name__ in '__main__':
-    GameData.create_csv()
-    GameData.add_data(0, 0)
-    GameData.add_data(135, -5000)
-    GameData.add_data(250, -3000)
-    GameData.add_data(420, 1000)
-    GameData.add_data(520, 2500)
-    GameData.information('akinori', GameData.model_name_h)
-
-
-

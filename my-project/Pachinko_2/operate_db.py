@@ -242,24 +242,3 @@ class DataBase:
                     DataBase._master_show_history(itr)
             else:
                 print('入力が正しくありません。')
-
-
-if __name__ == '__main__':
-    DataBase.get_money_when_entry('aki', 33)
-    # ---spec.db---
-    # 新規作成
-    #DataBase.create_spec_db_first()
-    # チェック
-    # check_h = DataBase.check_spec_db(DataBase.values_hokuto)
-    # check_e = DataBase.check_spec_db(DataBase.values_eva)
-    # check_m = DataBase.check_spec_db(DataBase.values_madokamagika)
-    # print(check_h, check_e, check_m)
-    # 確認、追加
-    # DataBase.check_and_add_spec_db()
-
-    # ---pachinko.db---
-    # DataBase.save_data_to_history_table('aki', 33, 'CR北斗の拳', -17500)
-    # DataBase.show_history('aki', 33)
-
-    # ---管理人操作---
-    # DataBase.check_pachinko_db(2)

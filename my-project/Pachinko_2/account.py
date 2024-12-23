@@ -9,10 +9,12 @@ class Account:
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')  # オプション: 日付フォーマット
 
-    def __init__(self, name='anonymous', age=20, money=5000):
+    def __init__(self, name, age, money):
         self.name = name
         self.age = age
         self.money = money
+        self.investment_amount = 0  # 総投資額
+        self.play_check = 0  # 遊戯確認(一度でも玉を発射すると遊戯履歴を残す)
 
     # 年齢入力
     @staticmethod
@@ -79,7 +81,7 @@ class Account:
         char = Account(name, age, money)  # インスタンス作成
         return char
 
-    # アカウント確認、インスタンスを作成して返す
+    # アカウント確認、インスタンスを作成して返す <<< main.py[Main]から実行
     @staticmethod
     def check_account():
         print('名前、年齢、所持金を入力してください。')
@@ -101,7 +103,3 @@ class Account:
                 return char
         else:
             return None
-
-
-if __name__ == '__main__':
-    Account.check_account()
