@@ -6,7 +6,6 @@ from Pachinko_store.store.store import Store
 
 # パチンコ機能(内部機能、表示、ユーザーアクション)
 class Pachinko(Store):
-    # saving_balls = 0  # 貯玉
     balls_for_replay = 0  # 持ち玉遊戯用
     get_balls = 0  # 純増出玉(リザルト画面で使用)
     total_num_of_balls = 0  # 遊戯台の出玉数(出玉推移グラフ用)
@@ -300,4 +299,3 @@ class Pachinko(Store):
             Pachinko.revenue(self)
             GameData.create_csvfile()  # csvファイル初期化
         return choice
-
