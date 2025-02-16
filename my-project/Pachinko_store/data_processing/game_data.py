@@ -37,7 +37,7 @@ class GameData:
     # グラフファイル名作成　{ユーザー名:3文字}_{日付:4文字}_{遊技台:1文字}.png
     # ユーザー名が英字３文字か判定 英字でなければ"anonymous"を使用
     @staticmethod
-    def _check_user_name(username):
+    def _validate_user_name_format(username):
         pattern = '^([A-Z]|[a-z]){3}'
         pattern = re.compile(pattern)
         res = pattern.search(username)
@@ -48,7 +48,7 @@ class GameData:
 
     # 日付を取得(ファイル名用、グラフタイトル用)
     @staticmethod
-    def _gat_datetime():
+    def _get_datetime():
         date = datetime.datetime.now()
         date_for_file = f'{date.month}{date.day}'
         date_for_graph = f'{date.year}/{date.month}/{date.day}'
@@ -102,8 +102,8 @@ class GameData:
     @staticmethod
     def show_game_data(username, model):
         game_df = GameData._create_df()  # csvファイルをDataFrameに変換
-        username_for_file = GameData._check_user_name(username)  # pngファイル用のユーザー名を取得
-        date_for_file, date_for_graph = GameData._gat_datetime()  # pngファイル名、グラフタイトル用の日付を取得
+        username_for_file = GameData._validate_user_name_format(username)  # pngファイル用のユーザー名を取得
+        date_for_file, date_for_graph = GameData._get_datetime()  # pngファイル名、グラフタイトル用の日付を取得
         model_initial = GameData._get_model_initial(model)  # pngファイル名用の遊技台イニシャルを取得
         file_name = GameData._create_filename(username_for_file, date_for_file, model_initial)  # pngファイル名作成
         graph_title = GameData._create_graph_title(model, username, date_for_graph)  # グラフタイトル作成
@@ -111,7 +111,7 @@ class GameData:
 
 
 if __name__ == '__main__':
-    name = GameData._check_user_name('akinori')
+    name = GameData._validate_user_name_format('akinori')
     print(name)
     # GameData.create_csvfile()
     # GameData.add_data(125, -5000)
