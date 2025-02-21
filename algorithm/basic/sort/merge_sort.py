@@ -36,6 +36,6 @@ def merge_sort(numbers: List[int]) -> List[int]:
 
 
 if __name__ == '__main__':
-    num_list = [random.randint(1, 100) for _ in range(10)]
+    num_list = [random.randint(1, 1000) for _ in range(10)]
     print(num_list)
     print(merge_sort(num_list))
